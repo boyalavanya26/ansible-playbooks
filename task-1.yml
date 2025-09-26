@@ -12,8 +12,8 @@
       - name: Install Httpd on Host Machines
         action: yum pkg=httpd state=present
       - name: Starting httpd webserver
-        action: service pkg=httpd state=started
+        action: service name=httpd state=started
       - name: Stopping httpd webserver
-        action: service pkg=httpd state=stopped
+        action: service name=httpd state=stopped
       - name: Install mysql Server
         action: yum pkg=maria_db state=present
