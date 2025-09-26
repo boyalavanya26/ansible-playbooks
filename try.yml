@@ -4,16 +4,40 @@
   become: true
   connection: ssh
   tasks:
- 
-      - name: Start webserver on Host Machines
-        action: service name=httpd state=started
- 
-      - name: Install Git on Host Machines
-        action: yum pkg=git state=present
-     
-      - name: Clone Flipkart Clone repo
-        git:
-          repo: https://github.com/Msocial123/Flipkart-Clone.git
-          dest: index.html
-          version: main
-          force: yes
+
+    - name: Install Apache Web Server
+      yum:
+        name: httpd
+        state: present
+
+    - name: Start and Enable Apache
+      service:
+        name: httpd
+        state: started
+        enabled: true
+
+    - name: Install Git
+      yum:
+        name: git
+        state: present
+
+    - name: Clone Flipkart Clone repo into web root
+      git:
+        repo: https://github.com/Msocial123/Flipkart-Clone.git
+        dest: /var/www/html
+        version: main
+        force: yes
+
+    - name: Set correct permissions for web root
+      file:
+        path: /var/www/html
+        state: directory
+        recurse: yes
+        owner: apache
+        group: apache
+        mode: '0755'
+
+    - name: Restart Apache to apply changes
+      service:
+        name: httpd
+        state: restarted
