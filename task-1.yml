@@ -1,0 +1,19 @@
+---
+- hosts: webservers
+  user: ansible
+  become: true
+  connection: ssh
+  tasks:
+
+      - name: Install Python on Host Machines
+        action: yum pkg=python state=present
+      - name: Install Java on Host Machines
+        action: yum pkg=java state=present 
+      - name: Install Httpd on Host Machines
+        action: yum pkg=httpd state=present
+      - name: Starting httpd webserver
+        action: service pkg=httpd state=started
+      - name: Stopping httpd webserver
+        action: service pkg=httpd state=stopped
+      - name: Install mysql Server
+        action: yum pkg=maria_db state=present
