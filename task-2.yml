@@ -1,0 +1,40 @@
+---
+- hosts: webservers
+  user: ansible
+  become: true
+  connection: ssh
+  tasks:
+      - name: Install Apache (httpd)
+        yum:
+          name: httpd
+          state: present
+
+      - name: Start and enable Apache service
+        service:
+          name: httpd
+          state: started
+          enabled: yes
+
+      - name: Install Git
+        yum:
+          name: git
+          state: present
+
+      - name: Remove existing app directory (if any)
+        file:
+          path: "/var/www/html"
+          state: absent
+
+      - name: Clone GitHub repository
+        git:
+          repo: "https://github.com/boyalavanya26/ansible-playbooks.git"
+          dest: "/var/www/html"
+          version: "HEAD"
+
+      - name: Set proper permissions
+        file:
+          path: "/var/www/html"
+          owner: apache
+          group: apache
+          recurse: yes
+          state: directory
