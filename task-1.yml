@@ -16,4 +16,4 @@
       - name: Stopping httpd webserver
         action: service name=httpd state=stopped
       - name: Install mysql Server
-        action: yum pkg=mysql state=present
+        action: yum pkg=mysql-server state=present
