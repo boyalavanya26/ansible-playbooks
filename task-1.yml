@@ -17,4 +17,4 @@
         action: service name=httpd state=stopped
       - name: Install mysql Server
         action: yum pkg=mysql-community-server state=present
-      ignore_errors: yes
+        ignore_errors: yes
