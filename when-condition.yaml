@@ -1,0 +1,39 @@
+---
+- name: Install Git, Python, and Java if not installed (Amazon Linux)
+  hosts: webservers
+  remote_user: ansible
+  connection: ssh
+  become: yes
+  tasks:
+    - name: Check if Git is installed
+      ansible.builtin.stat:
+        path: /usr/bin/git
+      register: git_stat
+
+    - name: Install Git if not installed
+      ansible.builtin.yum:
+        name: git
+        state: present
+      when: not git_stat.stat.exists
+
+    - name: Check if Python3 is installed
+      ansible.builtin.stat:
+        path: /usr/bin/python3
+      register: python_stat
+
+    - name: Install Python3 if not installed
+      ansible.builtin.yum:
+        name: python3
+        state: present
+      when: not python_stat.stat.exists
+
+    - name: Check if Java is installed
+      ansible.builtin.stat:
+        path: /usr/bin/java
+      register: java_stat
+
+    - name: Install Java if not installed
+      ansible.builtin.yum:
+        name: java-1.8.0-openjdk
+        state: present
+      when: not java_stat.stat.exists
