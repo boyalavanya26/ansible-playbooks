@@ -21,7 +21,7 @@
   - name: Start and Enable Docker
     service:
       name: docker
-      state: started
+      state: stopped
       enabled: yes
     notify: Restart Docker
 
@@ -29,4 +29,4 @@
   - name: Restart Docker
     service:
       name: docker
-      state: stopped
+      state: restarted
