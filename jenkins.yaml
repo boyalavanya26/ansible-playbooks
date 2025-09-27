@@ -10,16 +10,22 @@
         state: present
     - name: Download the Jenkins Repo
       get_url:
-        url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
+        url: "https://pkg.jenkins.io/redhat-stable/jenkins.repo"
         dest: /etc/yum.repos.d/jenkins.repo
     - name: Import Key
       rpm_key:
-        key: https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+        key: "https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key"
         state: present
-    - name: Install EPEL release RPM with dnf
-      dnf:
-        name: epel-release
+    - name: Download EPEL release RPM
+      get_url:
+        url: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm"
+        dest: /tmp/epel-release-latest-7.noarch.rpm
+
+    - name: Install EPEL release RPM
+      yum:
+        name: /tmp/epel-release-latest-7.noarch.rpm
         state: present
+        disable_gpg_check: true
     - name: Install Jenkins
       yum:
         name: jenkins
