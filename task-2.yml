@@ -1,40 +1,41 @@
 ---
-- hosts: webservers
-  user: ansible
-  become: true
-  connection: ssh
+- name: Deploy Flipkart Clone on Webservers
+  hosts: webservers
+  become: yes
   tasks:
-      - name: Install Apache (httpd)
-        yum:
-          name: httpd
-          state: present
-
-      - name: Start and enable Apache service
-        service:
-          name: httpd
-          state: started
-          enabled: yes
-
-      - name: Install Git
-        yum:
-          name: git
-          state: present
-
-      - name: Remove existing app directory (if any)
-        file:
-          path: "/var/www/html"
-          state: absent
-
-      - name: Clone GitHub repository
-        git:
-          repo: "https://github.com/boyalavanya26/ansible-playbooks.git"
-          dest: "/var/www/html"
-          version: "HEAD"
-
-      - name: Set proper permissions
-        file:
-          path: "/var/www/html"
-          owner: apache
-          group: apache
-          recurse: yes
-          state: directory
+ 
+    - name: Install required packages
+      yum:
+        name:
+          - git
+          - httpd
+        state: present
+ 
+    - name: Ensure httpd is running and enabled
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+ 
+    - name: Clone Flipkart Clone repository
+      git:
+        repo: "https://github.com/Msocial123/Flipkart-Clone.git"
+        dest: "/home/ansible/Flipkart-Clone"
+        version: master
+        force: yes
+ 
+    - name: Copy application code to web root
+      copy:
+        src: "/home/ansible/Flipkart-Clone/"
+        dest: "/var/www/html/"
+        owner: apache
+        group: apache
+        mode: '0755'
+        remote_src: yes
+ 
+    - name: Set correct permissions for web root
+      file:
+        path: /var/www/html
+        owner: apache
+        group: apache
+        recurse: yes
