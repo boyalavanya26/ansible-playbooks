@@ -18,12 +18,12 @@
         state: present
     - name: Download EPEL release RPM
       get_url:
-        url: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm"
-        dest: /tmp/epel-release-latest-7.noarch.rpm
+        url: https://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-14.noarch.rpm
+        dest: /tmp/epel-release-7-14.noarch.rpm
 
     - name: Install EPEL release RPM
       yum:
-        name: /tmp/epel-release-latest-7.noarch.rpm
+        name: /tmp/epel-release-7-14.noarch.rpm
         state: present
         disable_gpg_check: true
     - name: Install Jenkins
