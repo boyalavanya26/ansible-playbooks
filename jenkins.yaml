@@ -21,10 +21,21 @@
         url: https://mirror.rackspace.com/fedora/epel/7/x86_64/Packages/e/epel-release-7-14.noarch.rpm
         dest: /tmp/epel-release-7-14.noarch.rpm
 
-    - name: Install EPEL release from official repo
+    - name: Install Openjdk
       yum:
-        name: epel-release
+        name: java-17-amazon-corretto.x86_64
         state: present
+
+    - name: Add Jenkins repo
+      get_url:
+        url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
+        dest: /etc/yum.repos.d/jenkins.repo
+
+    - name: Import Jenkins GPG key
+      rpm_key:
+        key: https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+        state: present
+
     - name: Install Jenkins
       yum:
         name: jenkins
