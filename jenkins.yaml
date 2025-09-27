@@ -21,11 +21,10 @@
         url: https://mirror.rackspace.com/fedora/epel/7/x86_64/Packages/e/epel-release-7-14.noarch.rpm
         dest: /tmp/epel-release-7-14.noarch.rpm
 
-    - name: Install EPEL release RPM
+    - name: Install EPEL release from official repo
       yum:
-        name: /tmp/epel-release-7-14.noarch.rpm
+        name: epel-release
         state: present
-        disable_gpg_check: true
     - name: Install Jenkins
       yum:
         name: jenkins
